@@ -1,6 +1,8 @@
 import Fuse from "fuse.js";
 import express from "express";
 import cors from "cors";
+import dotenv from "dotenv";
+dotenv.config();
 
 import avatars from './json/avatars.json' with { type: "json" };
 import backgrounds from './json/backgrounds.json' with { type: "json" };
@@ -49,9 +51,6 @@ app.get("/getPointshopItems", (req, res, next) => {
   } catch {
     return res.sendStatus(400);
   }
-
-  console.log(req.query);
-  console.log(`${pageNumber} | ${searchQuery} | ${isAnimated} | ${categoryId}`);
 
   let typedData =
     categoryId !== 0
