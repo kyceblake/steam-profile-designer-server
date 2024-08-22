@@ -14,14 +14,14 @@ PS. I'm thinking about downloading all metadata about pointshop into chrome exte
 
 `npm install`
 
-`npm run start` - start the server
+`npm run update` - update pointshop metadata **if you want fresh database run this first!!!**
 
-`npm run update` - update pointshop metadata
+`npm run start` - start the server
 
 # To Do
 
-- cleanup code
-- use timestamps on metadata to see when it was updated
+- Get game icon of the pointshop item (WONTFIX because it requires steam partner publisher key)
+- Sort items by game (I don't think this is really wanted feature)
 
 # Credits
 

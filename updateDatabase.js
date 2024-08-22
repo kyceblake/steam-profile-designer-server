@@ -138,32 +138,51 @@ async function getData(type) {
     bundle_discount: 0
 } */
 
+function serialize(data) {
+  const TYPES = {
+    3: "background",
+    15: "avatar",
+    14: "frame",
+    8: "profile",
+  };
+
+  return data.map((item) => {
+    return {
+      appid: item.appid,
+      defid: item.defid,
+      type: TYPES[item.community_item_class],
+      price: item.point_cost,
+      title: item.community_item_data.item_title,
+      urls: {
+        small: item.community_item_data.item_image_small,
+        big: item.community_item_data.item_image_large,
+        baseUrl:
+          "https://cdn.akamai.steamstatic.com/steamcommunity/public/images/items",
+      },
+      isAnimated: item.community_item_data.animated,
+      isSelected: false,
+    };
+  });
+}
+
 export default async function updateDatabase() {
-  // let timestamp;
-
-  // if (fs.existsSync("./json/timestamp.json")) {
-  //   let file = fs.readFileSync("./json/timestamp.json", "utf8");
-  //   timestamp = new Date(+file);
-  // } else {
-  //   fs.writeFileSync(
-  //     "./json/timestamp.json",
-  //     JSON.stringify(new Date().getTime())
-  //   );
-  // }
-
-  // if (Math.floor(new Date().getTime() - timestamp.getTime()) == 24) {
-  //   return 1;
-  // }
-
   const backgrounds = await getData(3);
   const frames = await getData(14);
   const avatars = await getData(15);
-  const profileThemes = await getData(8);
 
-  fs.writeFileSync("./json/backgrounds.json", JSON.stringify(backgrounds));
-  fs.writeFileSync("./json/frames.json", JSON.stringify(frames));
-  fs.writeFileSync("./json/avatars.json", JSON.stringify(avatars));
-  fs.writeFileSync("./json/profileThemes.json", JSON.stringify(profileThemes));
+  fs.writeFileSync(
+    "./json/backgrounds.json",
+    JSON.stringify(serialize(backgrounds))
+  );
+  fs.writeFileSync("./json/frames.json", JSON.stringify(serialize(frames)));
+  fs.writeFileSync("./json/avatars.json", JSON.stringify(serialize(avatars)));
+
+  // const profileThemes = await getData(8);
+  // TODO: profile colors not yet supported
+  // fs.writeFileSync(
+  //   "./json/profileThemes.json",
+  //   JSON.stringify(serialize(profileThemes))
+  // );
 }
 
 updateDatabase().catch(console.error);
