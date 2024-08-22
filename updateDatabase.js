@@ -147,18 +147,38 @@ function serialize(data) {
   };
 
   return data.map((item) => {
+    const metadata = item.community_item_data;
+    let urls = {
+      baseUrl:
+        "https://cdn.akamai.steamstatic.com/steamcommunity/public/images/items",
+      shop: `https://store.steampowered.com/points/shop/app/${item.appid}/reward/${item.defid}`,
+    };
+
+    // steam has weird keys...
+    if (metadata.animated) {
+      urls = {
+        ...urls,
+        small: metadata.item_image_small || metadata.item_movie_webm_small,
+        big: metadata.item_image_large || metadata.item_movie_webm,
+      };
+    } else {
+      urls = {
+        ...urls,
+        big: metadata.item_image_large,
+      };
+    }
+
+    if (!(urls.small || urls.big)) {
+      console.log(item, urls);
+    }
+
     return {
       appid: item.appid,
       defid: item.defid,
       type: TYPES[item.community_item_class],
       price: item.point_cost,
       title: item.community_item_data.item_title,
-      urls: {
-        small: item.community_item_data.item_image_small,
-        big: item.community_item_data.item_image_large,
-        baseUrl:
-          "https://cdn.akamai.steamstatic.com/steamcommunity/public/images/items",
-      },
+      urls,
       isAnimated: item.community_item_data.animated,
       isSelected: false,
     };
