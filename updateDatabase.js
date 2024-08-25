@@ -156,20 +156,24 @@ function serialize(data) {
 
     // steam has weird keys...
     if (metadata.animated) {
+      let small = metadata.item_image_small || metadata.item_movie_webm_small;
+      let big = metadata.item_image_large || metadata.item_movie_webm;
+
+      let isVideo =
+        small?.endsWith("webm") || big?.endsWith("webm") ? true : false;
+
       urls = {
         ...urls,
-        small: metadata.item_image_small || metadata.item_movie_webm_small,
-        big: metadata.item_image_large || metadata.item_movie_webm,
+        small,
+        big,
+        isVideo,
       };
     } else {
       urls = {
         ...urls,
         big: metadata.item_image_large,
+        isVideo: false,
       };
-    }
-
-    if (!(urls.small || urls.big)) {
-      console.log(item, urls);
     }
 
     return {
