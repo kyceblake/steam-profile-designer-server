@@ -1,12 +1,25 @@
 # Steam Profile Designer (server repository)
 
-Chrome extension requires server because STEAM API doesn't use CORS and we can't access it through chrome extension
+Steam Profile Designer requires server because STEAM API doesn't use CORS and it can't access through browser extension
 
-You can self host server and change ip address of your host in chrome extensions settings.
+You can self host server and change ip address of your host in browser extensions settings.
 
-PS. I'm thinking about downloading all metadata about pointshop into chrome extension. But metadata size is about 30-40 mb.
+PS. I'm thinking about downloading all metadata about pointshop into browser extension. But metadata size is about 30-40 mb.
 
 # How to use
+
+## Prerequisites
+
+### Windows
+
+[Node.JS v22.7.0 or newer (might work on prevous versions)](https://nodejs.org/en/download/prebuilt-installer)
+[Git](https://git-scm.com/downloads) or download manually by clicking green code button then "Download ZIP"
+
+## Linux
+
+Download NodeJS and Git via package managers
+
+## Installation
 
 `git clone https://github.com/kyceblake/steam-profile-designer-server.git`
 
@@ -21,7 +34,7 @@ PS. I'm thinking about downloading all metadata about pointshop into chrome exte
 # To Do
 
 - Get game icon of the pointshop item (WONTFIX because it requires steam partner publisher key)
-- Sort items by game (I don't think this is really wanted feature)
+- If we can accesss Steam API without CORS then maybe make browser extension as standalone?
 
 # Credits
 
