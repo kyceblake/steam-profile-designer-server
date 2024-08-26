@@ -35,6 +35,7 @@ Download NodeJS and Git via package managers
 
 - Get game icon of the pointshop item (WONTFIX because it requires steam partner publisher key)
 - If we can accesss Steam API without CORS then maybe make browser extension as standalone?
+- Rate limit
 
 # Credits
 

@@ -70,7 +70,7 @@ app.get("/getItems", validateGetItems, (req, res, next) => {
   res.json(
     JSON.stringify({
       page: pages[page],
-      pages: pages.length,
+      pages: pages.length - 1,
     })
   );
 });
