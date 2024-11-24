@@ -3,9 +3,9 @@ import { check, validationResult } from "express-validator";
 import cors from "cors";
 import Fuse from "fuse.js";
 
-import avatars from './json/avatars.json' with { type: "json" };
-import backgrounds from './json/backgrounds.json' with { type: "json" };
-import frames from './json/frames.json' with { type: "json" };
+import avatars from "./json/avatars.json" with { type: "json" };
+import backgrounds from "./json/backgrounds.json" with { type: "json" };
+import frames from "./json/frames.json" with { type: "json" };
 import paginate from "./utils/paginate.js";
 
 const data = [...avatars, ...backgrounds, ...frames];
@@ -18,7 +18,7 @@ app.listen(PORT, () => {
   console.log(`server is ready on ${PORT}`);
 });
 
-const validItemsTypes = ["background", "avatar", "frame"]
+const validItemsTypes = ["background", "avatar", "frame"];
 var validateGetItems = [
   check("page")
     .isNumeric()
@@ -29,14 +29,14 @@ var validateGetItems = [
     .escape()
     .optional()
     .withMessage(
-      "Optional 'search' string value can be more than 15 characters"
+      "Optional 'search' string value can be more than 15 characters",
     ),
   check("type")
     .isIn(validItemsTypes)
     .escape()
     .optional()
     .withMessage(
-      "Optional 'type' string value accepts only 'background', 'avatar', 'frame' values"
+      "Optional 'type' string value accepts only 'background', 'avatar', 'frame' values",
     ),
 ];
 
@@ -62,15 +62,17 @@ app.get("/getItems", validateGetItems, (req, res, next) => {
       threshold: 0.1,
       keys: ["title", "appid"],
     });
-    mutatableData = fuse.search(search);
+    mutatableData = fuse.search(search).map((i) => i.item);
+    console.log(mutatableData);
   }
 
   let pages = paginate(mutatableData, 10);
 
   res.json(
     JSON.stringify({
-      page: pages[page],
+      items: pages[page],
+      page: page,
       pages: pages.length - 1,
-    })
+    }),
   );
 });
